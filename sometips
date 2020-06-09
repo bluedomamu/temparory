@@ -1,0 +1,68 @@
+前言:
+刚开始以为slot(插槽)只是vue里面的东西,后来复习了下HTML发现,其实HTML本身就有这个标签,只是没用过而已...
+
+v-slot: VUE2.6.0后的新用法
+
+以前我们用插槽:
+具名插槽
+<template>
+<slot name="iamslot">{{x}},{{y}}</slot>
+<slot name="iamno2slot"></slot>
+</templdate>
+默认插槽
+<template>
+<slot></slot>
+</templdate>
+使用插槽:暂且把上面的当作是一个currentSlot组件
+我们使用方式:
+具名插槽使用:例如下面div里面的内容将填充iamslot插槽位置,span里面的内容将填充iamno2slot插槽位置(slot属性指明使用哪个插槽).
+传参数,例如div,slot-scope里面的对象来传递参数
+<currentSlot>
+<div slot="iamslot" slot-scope="{x,y}"></div>
+<span slot="iamno2slot"></span>
+</currentSlot>
+默认插槽使用:currentSlot里面的所有内容将填充iamslot插槽位置(如果具名和默认插槽混用,则除了slot属性指明的标签内容外,其他的都将填充至默认插槽位置).
+<currentSlot>
+<header></header>
+<div></div>
+<footer></footer>
+</currentSlot>
+以上就是以前的基本用法,当然默认插槽的默认名称是default,可以与具名插槽混用
+
+新标准后
+插槽的声明还是和以前一样(暂且把下面的当作是一个currentno2Slot组件)
+<template>
+<slot name="iamslot">{{x}},{{y}}</slot>
+<slot name="iamno2slot"></slot>
+<slot></slot>
+</templdate>
+只是调用时的方式变了,抛弃了slot和slot-scope属性,改用v-slot属性,方便了传递参数(插槽名称指明了,参数也传了,一举两得一箭双雕)
+<currentno2Slot>
+<div v-slot:iamslot="{x,y}"></div>
+<span v-slot:iamno2slot></span>
+<footer v-slot:default></footer>//或者<footer></footer>//除了具名插槽其他的将填充默认插槽,位置可以随意放
+</currentno2Slot>
+
+生产中很多情况会有嵌套插槽的使用,所以推荐即使是默认插槽,在调用时也应该写上default.避免报warning,甚至error.
+
+插槽内容解构赋值
+1.重命名传过来的值
+<div v-slot:iamslot="{x:fish}">{{fish.name}}</div>
+2.设置默认值,在没有传值的时候有用
+<div v-slot:iamslot="{x:fish={name:'i am fish'}}">{{fish.name}}</div>
+
+动态插槽名称
+1.有利于动态使用定义的插槽位置,例如生产中,有pc和app两个端,这个就可以通过使用不同的插槽来做不同的页面展示了.
+<div v-slot:[dynamicName]="{x,y}"></div>
+
+名称简写
+
+v-on  @
+v-bind  :
+上有这几个,插槽也有自身的一席之地
+v-slot #  
+
+如果使用缩写方式,则默认插槽调用必须写上default,不然warning(威武威武威武~~~,下面的当庭释放,退堂!)
+<currentno2Slot>
+<footer #default="slotsScope"></footer>
+</currentno2Slot>
