@@ -21,7 +21,7 @@ v-slot: VUE2.6.0后的新用法
 <div slot="iamslot" slot-scope="{x,y}"></div>
 <span slot="iamno2slot"></span>
 </currentSlot>
-默认插槽使用:currentSlot里面的所有内容将填充iamslot插槽位置(如果具名和默认插槽混用,则除了slot属性指明的标签内容外,其他的都将填充至默认插槽位置).
+默认插槽使用:currentSlot里面的所有内容将填充默认插槽位置(如果具名和默认插槽混用,则除了slot属性指明的标签内容外,其他的都将填充至默认插槽位置).
 <currentSlot>
 <header></header>
 <div></div>
